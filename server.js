@@ -26,15 +26,27 @@ app.get("/", function (request, response) {
 });
 
 app.post("/messages", (req, res) => {
-  const lastMessage = messages[messages.length - 1]
+  const lastMessage = messages[messages.length - 1];
   let infoMessage = {
     id: lastMessage.id + 1,
     from: req.body.from,
     text: req.body.text
   }
-  messages.push(infoMessage);
-  console.log(messages);
-  res.send(infoMessage);
+  if (req.body.from && req.body.text) {
+    messages.push(infoMessage);
+    console.log(messages);
+    res.status(201).send(infoMessage);
+  }
+  else {
+    res.status(400).send();
+  }
+});
+
+
+app.get("/messages/search", (req, res) => {
+  const wordToFind = req.query.text;
+  const filteredMessages = messages.filter(word => word.text.includes(wordToFind));
+  res.send(filteredMessages);
 });
 
 app.get("/messages", (req, res) => {
