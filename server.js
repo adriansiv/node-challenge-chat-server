@@ -53,6 +53,14 @@ app.get("/messages", (req, res) => {
   res.send(messages);
 })
 
+app.get("/messages/:id", (req, res) => {
+  const ID = req.params.id;
+
+  const message = messages.find(message => message.id == ID);
+  
+  res.status(200).send(message);
+});
+
 app.delete("/messages/:id", (req, res) => {
   const ID = req.params.id
   // const messageID = messages.map(item => (item.id));
@@ -68,6 +76,6 @@ app.delete("/messages/:id", (req, res) => {
   };
   
 })
-app.listen(3000, () => {
-   console.log("Listening on port 3000")
+app.listen(3001, () => {
+   console.log("Listening on port 3001")
   });
